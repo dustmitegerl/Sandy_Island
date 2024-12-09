@@ -1,50 +1,93 @@
-// using InputSystem per the advice of the Unity manual
-// using this tutorial for help: https://www.youtube.com/watch?v=HmXU4dZbaMw
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     Rigidbody rb;
-    [SerializeField]
-    float walkSpeed;
-    [SerializeField]
-    float runMultiplier;
-    [SerializeField]
-    float moveSpeed;
-    [SerializeField]
-    bool isRunning = false;
-    [SerializeField]
-    PlayerInputActions playerControls;
-    [SerializeField]
-    Vector3 moveDirection = Vector3.zero;
-    InputAction move;
+    [SerializeField] GameObject lookCam;
+    [SerializeField] GameObject camHolder;
+    [SerializeField] Vector2 move, look;
+    [SerializeField] float speed, jumpThrust, sensitivity, maxForce, rotationSpeed;
+    [SerializeField] bool isJumping;
+    Vector3 m_EulerAngleVelocity;
+
+
     private void Awake()
     {
-        playerControls = new PlayerInputActions();
-    }
-    void OnEnable()
-    {
-        move = playerControls.Player.Move;
-        move.Enable();
+        rb = GetComponent<Rigidbody>();
+        
     }
 
-    void OnDisable()
+    public void OnMove(InputAction.CallbackContext context)
     {
-        move.Disable();
+        move = context.ReadValue<Vector2>();
     }
-    // Start is called before the first frame update
+    
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            rb.AddForce(transform.up * jumpThrust);
+            Debug.Log("jumping");
+        }
+    }
+    
+    //toggles camera
+    public void OnFocus(InputAction.CallbackContext context)
+    {
+        if (context.performed) 
+        {
+            lookCam.SetActive(true);
+        }
+        else if (context.canceled) 
+        {
+            lookCam.SetActive(false);
+        }
+     
+    }
 
+    private void Start()
+    {
+        m_EulerAngleVelocity = new Vector3(0, rotationSpeed, 0);
+    }
     private void Update()
     {
-        moveDirection = move.ReadValue<Vector3>();
+        if (rb.velocity.y != 0)
+        {
+            isJumping = true;
+        }
+        else isJumping = false;
     }
     private void FixedUpdate()
     {
-        rb.velocity = new Vector3(moveDirection.x, moveDirection.z) * moveSpeed; 
+        Move();
+        Rotate();
+    }
+
+
+    private void Move()
+    {
+        //Find target velocity
+        Vector3 currentVelocity = rb.velocity;
+        Vector3 targetVelocity = new(move.x * speed, rb.velocity.y, rb.velocity.z);
+
+        //Align direction
+        targetVelocity = transform.TransformDirection(targetVelocity);
+
+        //Calculate forces
+        Vector3 velocityChange = targetVelocity - currentVelocity;
+
+        //Limit force
+        Vector3.ClampMagnitude(velocityChange, maxForce);
+
+        rb.AddForce(velocityChange, ForceMode.VelocityChange);
+    }
+
+    public void Rotate()
+    {
+        Quaternion deltaRotation = Quaternion.Euler(m_EulerAngleVelocity * Time.fixedDeltaTime);
+        rb.MoveRotation(rb.rotation * deltaRotation);
     }
 }
