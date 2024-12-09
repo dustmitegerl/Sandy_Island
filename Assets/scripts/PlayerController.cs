@@ -11,8 +11,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Vector2 move, look;
     [SerializeField] float speed, jumpThrust, sensitivity, maxForce, rotationSpeed;
     [SerializeField] bool isJumping;
-    Vector3 m_EulerAngleVelocity;
-
 
     private void Awake()
     {
@@ -47,11 +45,6 @@ public class PlayerController : MonoBehaviour
         }
      
     }
-
-    private void Start()
-    {
-        m_EulerAngleVelocity = new Vector3(0, rotationSpeed, 0);
-    }
     private void Update()
     {
         if (rb.velocity.y != 0)
@@ -66,28 +59,15 @@ public class PlayerController : MonoBehaviour
         Rotate();
     }
 
-
     private void Move()
     {
-        //Find target velocity
-        Vector3 currentVelocity = rb.velocity;
-        Vector3 targetVelocity = new(move.x * speed, rb.velocity.y, rb.velocity.z);
-
-        //Align direction
-        targetVelocity = transform.TransformDirection(targetVelocity);
-
-        //Calculate forces
-        Vector3 velocityChange = targetVelocity - currentVelocity;
-
-        //Limit force
-        Vector3.ClampMagnitude(velocityChange, maxForce);
-
-        rb.AddForce(velocityChange, ForceMode.VelocityChange);
+        rb.MovePosition(rb.position + transform.forward * speed * Input.GetAxis("Vertical") * Time.deltaTime);
     }
 
     public void Rotate()
     {
-        Quaternion deltaRotation = Quaternion.Euler(m_EulerAngleVelocity * Time.fixedDeltaTime);
-        rb.MoveRotation(rb.rotation * deltaRotation);
+        float turn = move.x * rotationSpeed * Time.deltaTime;
+        Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
+        rb.MoveRotation(rb.rotation * turnRotation);
     }
 }

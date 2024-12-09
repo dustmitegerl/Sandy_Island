@@ -179,7 +179,7 @@ MonoBehaviour:
   jumpThrust: 300
   sensitivity: 0.3
   maxForce: 1
-  rotationSpeed: 0
+  rotationSpeed: 150
   isJumping: 0
 --- !u!54 &1527649186
 Rigidbody:
@@ -276,10 +276,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 8164078558226795039}
-  speedH: 2
-  speedV: 2
+  speedH: 0.5
+  speedV: 0.5
   yaw: 0
   pitch: 0
+  maxPitch: 90
+  isLooking: 0
 --- !u!81 &1563302304
 AudioListener:
   m_ObjectHideFlags: 0
@@ -530,13 +532,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1762295108}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.24201761, y: 0.020374088, z: -0.005083019, w: 0.9700446}
-  m_LocalPosition: {x: -0.001383233, y: 0.050763905, z: -0.078912504}
+  m_LocalRotation: {x: 0.20030847, y: 0, z: 0, w: 0.97973293}
+  m_LocalPosition: {x: 0, y: 0.03, z: -0.04}
   m_LocalScale: {x: 0.01353387, y: 0.01353387, z: 0.01353387}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1151388029091567908}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 23.11, y: 0, z: 0}
 --- !u!1 &1917463072
 GameObject:
   m_ObjectHideFlags: 0
@@ -810,7 +812,7 @@ Transform:
   m_GameObject: {fileID: 8164078558226795039}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.00025510788, y: 0, z: 0.0927314}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 73.888695, y: 73.888695, z: 73.888695}
   m_ConstrainProportionsScale: 0
   m_Children:
