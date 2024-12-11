@@ -1,0 +1,13 @@
+# Blender MTL File: 'tim.blend'
+# Material Count: 1
+
+newmtl material_1001
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.600000 0.600000 0.600000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd C:\\Users\\User1\\Desktop\\MeshroomCache\\Texturing\\b459d1ed44178bd37af3cfce557bf621c4bf72e8\\texture_1001.exr
