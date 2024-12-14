@@ -4,6 +4,12 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/arena.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/winzone.unity
+    guid: 4f76c856b14265a4c9551d316a13abd8
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 1ffa77b89260c414ab37e48a5abb8d22, type: 2}
